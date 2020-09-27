@@ -8,4 +8,5 @@
   3. React-Redux
   5. Express
   6. ES6 JS
+  7. Bootstrap
  
