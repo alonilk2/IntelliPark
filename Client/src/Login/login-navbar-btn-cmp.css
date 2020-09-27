@@ -1,0 +1,9 @@
+.user-avatar-icon {
+    height: 50px;
+    width: 50px;
+}
+
+.dropdown-menu {
+    left: unset;
+    right: 0;
+}
