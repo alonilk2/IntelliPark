@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import './navbar.css';
 import { Link } from 'react-router-dom';
-import Loginnavbarcmp from './Login/login-navbar-btn-cmp';
+import Loginnavbarcmp from './Screens/Login/login-navbar-btn-cmp';
 class NavBar extends Component {
 	render() {
 		return (
@@ -18,24 +18,24 @@ class NavBar extends Component {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
-                        <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                        <button className="nav-link" href="#">Home <span className="sr-only">(current)</span></button>
                         </li>
                         <li className="nav-item">
-                        <a className="nav-link" href="#">Link</a>
+                        <button className="nav-link" href="#">Link</button>
                         </li>
                         <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button className="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dropdown
-                        </a>
+                        </button>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a className="dropdown-item" href="#">Action</a>
-                            <a className="dropdown-item" href="#">Another action</a>
+                            <button className="dropdown-item" href="#">Action</button>
+                            <button className="dropdown-item" href="#">Another action</button>
                             <div className="dropdown-divider"></div>
-                            <a className="dropdown-item" href="#">Something else here</a>
+                            <button className="dropdown-item" href="#">Something else here</button>
                         </div>
                         </li>
                         <li className="nav-item">
-                        <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Disabled</a>
+                        <button className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Disabled</button>
                         </li>
                     </ul>
                     <Loginnavbarcmp />

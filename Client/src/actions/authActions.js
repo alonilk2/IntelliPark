@@ -28,15 +28,9 @@ const signup = (username, password, email, firstname, lastname) => async (dispat
     }
 }
 
-const signout = (user) => async (dispatch) => {
-    try {
-        await Axios.post("http://localhost:3001/logout", {user});
-        dispatch({type: USER_SIGNOUT_SUCCESS});
-        Cookie.remove('userInstance');
-    }
-    catch (err) {
-        console.log(err);
-    }
+const signout = () => (dispatch) => {
+    Cookie.remove('userInstance');
+    dispatch({type: USER_SIGNOUT_SUCCESS});
 }
 
 export {signin, signup, signout};

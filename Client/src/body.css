@@ -1,3 +1,7 @@
+.row {
+    color: lightgray;
+}
+
 .about {
     background: #E6DADA;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #274046, #E6DADA);  /* Chrome 10-25, Safari 5.1-6 */
@@ -7,11 +11,51 @@
 .midtitle {
     font-size: 30px;
     margin-top: 7%;
-    color: lightgray;
     padding: 4%;
 }
 
+.contact {
+    background: #0f0c29;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 5%;
+}
+.formcol {
+    text-align: left;
+}
+.form-control {
+    border-radius: 0%;
+    background-color: transparent;
+    border-width: 0px 0px 1px 0px;
+}
+.form-control:focus {
+    border-radius: 0%;
+    background-color: transparent;
+    border-width: 0px 0px 1px 0px;
+}
+.formcol button {
+    margin-top: 3%;
+    border-radius: 0%;
+    color: black;
+    background-color: white;
+    border-color: black;
+    border-width: 2px;
+    padding: 2% 3%;
+    font-weight: bolder;
+    font-size: 20px;
+}
+.contact-title-col {
+    margin-top: 10%;
+}
 .card-img-top {
     height: 17vw;
     object-fit: cover;
+}
+
+.lowsection {
+    background: #000000;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 10%;
+
 }

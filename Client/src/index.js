@@ -4,12 +4,12 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Router, Route} from 'react-router-dom';
-import Login from './Login/Login';
+import Login from './Screens/Login/Login';
 import history from './history';
 import { Provider } from 'react-redux';
 import store from './store';
-import SignUp from './Signup/index';
-import Signout from './Signout';
+import SignUp from './Screens/Signup';
+import Signout from './Screens/Signout';
 ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>      

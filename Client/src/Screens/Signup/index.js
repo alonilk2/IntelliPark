@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-import NavBar from '../navbar';
+import NavBar from '../../navbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { signup } from '../actions/authActions';
-import history from '../history';
-import { render } from '@testing-library/react';
+import { signup } from '../../actions/authActions';
+import history from '../../history';
 function Signup(props) {
     
     const [username, setUsername] = useState('');
@@ -16,7 +15,7 @@ function Signup(props) {
     const [lastname, setLastname] = useState('');
     var secPasswordTypedFlag = false;
     const userInstance = useSelector(state => state.user);
-    const { loggedin, registering, user, error } = userInstance;
+    const { user, error } = userInstance;
     const dispatch = useDispatch();
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -31,7 +30,7 @@ function Signup(props) {
         };
       }, [user]);
       const checkEqualPasswords = () => {
-          if(password!=password1 && secPasswordTypedFlag==true)
+          if(password!==password1 && secPasswordTypedFlag===true)
             return <div class="alert alert-danger" role="alert">Make sure that both passwords are the same!</div>
       }
         return (

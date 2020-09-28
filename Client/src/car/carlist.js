@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import httpService from '../HttpService';
 import Carblock from './carblock';
-
+let self = 0;
 const http = new httpService();
 class CarList extends Component {
   constructor(props){
@@ -10,11 +10,11 @@ class CarList extends Component {
     this.state = {cars:[]};
     this.loadData = this.loadData.bind(this);
     this.carList = this.carList.bind(this);
-    var cars = this.loadData();
+    this.loadData();
   }
   loadData = () => {
-    var self = this;
-    http.getCars().then(data => {
+    self = this;
+    http.getCars().then((data) => {
       self.setState({cars: data});
     }, err => {
 
@@ -22,7 +22,7 @@ class CarList extends Component {
   }
   carList = () => {
     const list = this.state.cars.map((car) =>
-      <Carblock ID={car.ID} Manufacturer={car.Manufacturer} imgurl={car.imgurl}/>
+      <Carblock key={car.ID} ID={car.ID} Manufacturer={car.Manufacturer} imgurl={car.imgurl}/>
     );
     return (list);
   }
