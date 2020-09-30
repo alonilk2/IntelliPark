@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import SignUp from './Screens/Signup';
 import Signout from './Screens/Signout';
+import userProfile from './Screens/UserProfile';
 ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>      
@@ -19,6 +20,7 @@ ReactDOM.render(
             <Route path="/login" component={Login}></Route>
             <Route path="/Signup" component={SignUp}></Route>
             <Route path="/Signout" component={Signout}></Route>
+            <Route path="/userProfile" component={userProfile}></Route>
           </div>
         </Router>
       </Provider>

@@ -1,5 +1,5 @@
 import { USER_SIGNIN_ATTEMPT, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAILED,
-    USER_SIGNUP_ATTEMPT, USER_SIGNUP_SUCCESS, USER_SIGNUP_FAILED, USER_SIGNOUT_SUCCESS } from '../Constants/userConst';
+    USER_SIGNUP_ATTEMPT, USER_SIGNUP_SUCCESS, USER_SIGNUP_FAILED, USER_SIGNOUT_SUCCESS} from '../Constants/userConst';
 
 function authReducer(state = {}, action) {
     switch (action.type) {
@@ -12,7 +12,7 @@ function authReducer(state = {}, action) {
             return {
                 logging: false,
                 loggedin: true,
-                user: action.payload
+                data: action.payload.data
             }
         }
         case USER_SIGNIN_FAILED:{

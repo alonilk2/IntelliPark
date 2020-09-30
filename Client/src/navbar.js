@@ -7,7 +7,7 @@ class NavBar extends Component {
 	render() {
 		return (
             <header className="App-header">
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <nav className="navbar navbar-expand-lg navbar-light">
                     <Link to="/" className="navbar-brand" href="#">
                     <img src={require('./logo.png')} width="40" height="50" className="d-inline-block align-top" alt="" loading="lazy"></img>
                     IntelliPark

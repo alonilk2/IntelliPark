@@ -1,9 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import { Link } from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import cookie from 'js-cookie';
 import './login-navbar-btn-cmp.css';
-import { signout } from '../../actions/authActions';
+import { signout, getavatar } from '../../actions/authActions';
+import { Base64 } from 'js-base64';
+
 
 
 class loginnavbarcmp extends Component {
@@ -11,19 +13,25 @@ class loginnavbarcmp extends Component {
         //const userInstance = useSelector(state=>state.user);
         const userInstance = cookie.get('userInstance');
         const dispatch = useDispatch();
+        const [imgString, setImage] = useState('');
         if(userInstance) {
             const user = JSON.parse(userInstance);
+            const img = dispatch(getavatar({'email':user.data.email}));
+            var imgstr = img.then((res) => {
+                let u8s = new Uint8Array(res.data.image.data);
+                setImage("data:"+res.data.contentType+";base64,"+Base64.fromUint8Array(u8s));
+            })
             return (
                 <form className="form-inline my-2 my-lg-0">
-                    <img src={user.data.avatar} className="user-avatar-icon" alt="avatar"></img>
+                    <img src={imgString} className="user-avatar-icon" alt="avatar"></img>
                     <button className="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     </button>
                     
                     <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                         <button className="dropdown-item">Hello {user.data.firstname}</button>
-                        <button className="dropdown-item" href="#">My Profile</button>
+                        <Link className="dropdown-item" to='/userprofile'>My Profile</Link>
                         <div className="dropdown-divider"></div>
-                        <button onClick={()=>dispatch(signout())} className="dropdown-item">Logout</button>
+                        <button onClick={()=>{dispatch(signout())}} className="dropdown-item">Logout</button>
                     </div>
                 </form>
             );

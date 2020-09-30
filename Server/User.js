@@ -10,7 +10,10 @@ var userSchema = new Schema({
     lastname: {type: String, required:true},
     token: String,
     isAdmin: {type: Boolean, required:true},
-	avatar: String
+	avatar: {
+        contentType: String,
+        image: Buffer
+    }
 });
 
 

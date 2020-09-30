@@ -1,0 +1,103 @@
+.container {
+    background-color: white;
+    margin: auto;
+    top: 30rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-content: center;
+    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: absolute;
+    max-height: 50rem;
+    padding: 1rem;
+
+}
+
+.filename {
+    font-weight: bolder;
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+    background-color: turquoise;
+}
+
+.avatarimg {
+    object-fit: cover;
+    height: 230px;
+    width: 230px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-color: darkgray;
+    border-style: dashed;
+    border-width: 3px;
+    border-radius: 50%;
+    
+}
+.dragdroptxt {
+    margin: 2rem 0rem 0rem 1rem;
+    opacity: 0.3;
+}
+
+.btn-file {
+    position: absolute;
+    margin-top: 5%;
+    background-color: #95afc0;
+    border-radius: 0%;
+    font-weight: bolder;
+    padding: 5px 20px;
+    bottom: 0;
+    width: 100%;
+}
+
+.upcontainer {
+    border-style: dashed;
+    border-color: darkgray;
+    border-width: 1px;
+    width: 50%;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      outline: none;
+      cursor: inherit;
+      display: block;
+      bottom: 0;
+
+  }
+.nav-link {
+    background-color: white;
+}
+h1 {
+    text-align: center;
+    color: black;
+    font-weight: bolder;
+}
+
+.avatarcontainer {
+    margin-top: 5%;
+}
+
+.upimg {
+    border-style: none;
+    padding: 0;
+    background-color: turquoise;
+    
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.card-header {
+    background-color: #686de0;
+}
+.btn-link ,.btn-link:hover {
+    color: white;
+    font-weight: bolder;
+}

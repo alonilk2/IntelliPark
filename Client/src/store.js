@@ -4,10 +4,16 @@ import Cookie from 'js-cookie';
 import thunk from 'redux-thunk';
 
 
-const userinf = Cookie.getJSON('user') || null;
-const initialState = {
-    user: {userinf}
-};
+const user = Cookie.getJSON('userInstance')|| null;
+var initialState = 0;
+if(user){
+    initialState = {
+        user: user,
+        loggedin: true
+    }
+} else {
+    initialState = {}
+}
 const Red = combineReducers({
     user : authReducer
 });

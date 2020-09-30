@@ -3,13 +3,15 @@ import React, { useEffect, useState} from 'react';
 import './login.css';
 import history from '../../history';
 import { useDispatch, useSelector } from 'react-redux';
-import { signin } from '../../actions/authActions';
+import { signin} from '../../actions/authActions';
 import NavBar from '../../navbar';
+import Axios from "axios";
+
 function Login(props) {
   const [Email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const userInstance = useSelector(state => state.user);
-  const { user, error} = userInstance;
+  const { data, error} = userInstance;
   const dispatch = useDispatch();
   const login = (event) => {
     event.preventDefault();
@@ -17,15 +19,16 @@ function Login(props) {
     if(error) {
       console.log("error");
     }
+
   }
   //useEffect triggers when side effects occur
   useEffect(() => {
-    if(user) {
+    if(data) {
       history.push('/');
     }
     return () => {
     };
-  }, [user]);
+  }, [data]);
   return (   
     <div>
       <NavBar />

@@ -2,22 +2,49 @@ var app = require('express')();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors')
+var multer = require('multer')
 mongoose.connect('mongodb://localhost/intelliparkdb');
 var db = mongoose.connection;
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var Car = require('./Car');
 var User = require('./User');
+const path = "uploads";
+const fs = require('fs');
+const { send } = require('process');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     console.log("Connected!!!!!!!!!");
 });
-
+   
 app.use(bodyParser.json());	
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, path);
+	},
+	filename: (req, file, cb) => {
+		cb(null, file.originalname);
+	}
+});
+
+const fileFilter = (req, file, cb) => {
+	if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+		cb(null, true);
+	} else {
+		cb("Type file is not access", false);
+	}
+};
+
+const upload = multer({
+	storage,
+	fileFilter,
+	limits: 1024 * 1024 * 5
+});
+//app.use(morgan("dev"));
 app.get('/getcars', function(request, response) {
     Car.find({}, function(err, carsArr) {
         if(err) response.status(500).send(err);
@@ -41,7 +68,12 @@ app.post('/login', async (request, response) => {
 			}, 'my#1FirStKEy', {
 				expiresIn: "1h"
 			})
-			response.send(user);
+			response.send({
+				"email":user.email,
+				"token":user.token,
+				"firstname":user.firstname,
+				"lastname":user.lastname
+			});
 		}
 	})}
 })
@@ -80,6 +112,38 @@ app.post('/addcar', function(request, response){
 		if(error) response.send({error:"Could not save car"});
 		else response.send(savedcar);
 	})
+})
+
+app.post('/upload-file', upload.single('avatar'), async function (req, res) {
+	var email = req.body.user;
+	const user = await User.findOne({'email': email});
+	var img = fs.readFileSync(req.file.path);
+	var encode_image = img.toString('base64');
+	var finalImg = {
+		 contentType: req.file.mimetype,
+		 image: new Buffer.from(encode_image, 'base64')
+	};
+	user.avatar = finalImg;
+   	user.save((err)=>{
+		if(err) return res.status(500).send(err);
+		return res.send(finalImg);
+	});
+	/* WORKING WAY FOR UPLOADING FILES*/
+	/*var tmp_path = req.file.path;
+	var target_path = 'uploads/' + req.file.originalname;
+	var src = fs.createReadStream(tmp_path);
+	var dest = fs.createWriteStream(target_path);
+	src.pipe(dest);
+	src.on('end', function() { res.json('complete'); });
+	src.on('error', function(err) { res.json('error'); });*/
+})
+app.post('/load-avatar', async function(req, res) {
+	var email = req.body.email;
+	const user = await User.findOne({'email': email});
+	if(user) {
+		return res.send(user.avatar);
+	}
+	else return res.status(500).send("User not found.");
 })
 app.listen(3001, function() {
     console.log("first api on port 3000");
