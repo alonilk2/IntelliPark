@@ -12,7 +12,7 @@ class App extends Component {
       <div className="App">
         <NavBar />
         <Body />
-        <CarList />
+
       </div>
     );
   }

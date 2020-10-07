@@ -11,7 +11,6 @@ var Car = require('./Car');
 var User = require('./User');
 const path = "uploads";
 const fs = require('fs');
-const { send } = require('process');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -44,11 +43,10 @@ const upload = multer({
 	fileFilter,
 	limits: 1024 * 1024 * 5
 });
-//app.use(morgan("dev"));
-app.get('/getcars', function(request, response) {
-    Car.find({}, function(err, carsArr) {
-        if(err) response.status(500).send(err);
-        else response.send(carsArr);
+app.post('/getCars', function(req, res) {
+    Car.find({ email: req.body.email }, function(err, carsArr) {
+        if(err) res.status(500).send(err);
+        else {res.send(carsArr);}
     });
 })
 app.post('/login', async (request, response) => {
@@ -114,6 +112,42 @@ app.post('/addcar', function(request, response){
 	})
 })
 
+app.post('/updateCar', async function(request, response){
+	await Car.deleteOne({_id: request.body.carObj._id}, function(err) {
+		if(err) return console.log("No previous car entry found");
+	});
+	var newcar = new Car(request.body.carObj);
+	if(request.body.Manufacturer) newcar.Manufacturer = request.body.Manufacturer;
+	if(request.body.ID) newcar.ID = request.body.ID;
+	if(request.body.color) newcar.color = request.body.color;
+	if(request.body.Model) newcar.Model = request.body.Model;
+	if(request.body.year) newcar.year = request.body.year;
+	newcar.save(function(error, savedcar) {
+		if(error) response.send({error:error});
+		else response.send(savedcar);
+	})
+})
+app.post('/updateImg', upload.single('img'), async function (req, res) {
+	var car = req.body.carid;
+	console.log("carid:"+ car);
+	const carIns = await Car.findOne({'_id': car}, (err, res) => {
+		if(err)
+			return console.log("error:"+err);
+		else return res;
+	});
+	var img = fs.readFileSync(req.file.path);
+	var encode_image = img.toString('base64');
+	var finalImg = {
+		 contentType: req.file.mimetype,
+		 image: new Buffer.from(encode_image, 'base64')
+	};
+	carIns.imgurl = finalImg;
+	console.log(carIns);
+	carIns.save((err, doc)=>{
+		if(err) return res.status(500).send(err);
+		return res.send(doc);
+	});
+})
 app.post('/upload-file', upload.single('avatar'), async function (req, res) {
 	var email = req.body.user;
 	const user = await User.findOne({'email': email});

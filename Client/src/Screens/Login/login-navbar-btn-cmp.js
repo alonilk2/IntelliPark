@@ -20,7 +20,7 @@ class loginnavbarcmp extends Component {
             var imgstr = img.then((res) => {
                 let u8s = new Uint8Array(res.data.image.data);
                 setImage("data:"+res.data.contentType+";base64,"+Base64.fromUint8Array(u8s));
-            })
+            }).catch(err => console.log(err));
             return (
                 <form className="form-inline my-2 my-lg-0">
                     <img src={imgString} className="user-avatar-icon" alt="avatar"></img>

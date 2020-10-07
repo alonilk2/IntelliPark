@@ -1,15 +1,13 @@
 .container {
     background-color: white;
-    margin: auto;
-    top: 30rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    top: 25%;
     align-content: center;
     box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position: absolute;
-    max-height: 50rem;
     padding: 1rem;
-
+    width: 200vw;
+    margin-top: 2vh;
 }
 
 .filename {
@@ -48,13 +46,24 @@
     bottom: 0;
     width: 100%;
 }
+.dropzone {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
 
 .upcontainer {
     border-style: dashed;
     border-color: darkgray;
     border-width: 1px;
-    width: 50%;
+    width: 60vh;
+    height: 20vh;
+    margin: 2% 0%;
+
 }
+
+
 .btn-file input[type=file] {
     position: absolute;
     min-width: 100%;
@@ -85,14 +94,41 @@ h1 {
 .upimg {
     border-style: none;
     padding: 0;
-    background-color: turquoise;
-    
+    object-fit: contain;    
+    opacity: 0.4;
+}
+
+li {
+    list-style: none;
+}
+
+.row {
+    width: 100%;
+}
+.upbtn {
+    border-style: none;
+    background-color: lightgreen;
+    width: 100%;
+    height: 100%;
+}
+.col-4, .col-8 {
+    padding: 0;
+    margin: auto;
+    display: inline-flex;
+}
+.uploader-ul {
+    background-color: #686de0;
+    align-items: end;
+    justify-content: right;
+    align-content: flex-end;
+    display: flex;
+
 }
 .card-body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    min-height: 37vh;
 }
 .card-header {
     background-color: #686de0;

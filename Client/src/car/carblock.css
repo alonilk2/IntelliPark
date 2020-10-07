@@ -1,7 +1,116 @@
 h5, p {
     color: black;
 }
-
+.cardblock {
+    max-width: 25vw;
+    min-width: 20vw;
+    overflow: hidden;
+    border-radius: 10%;
+    box-shadow: 0 10px 11px 0 rgba(0, 0, 0, 0.2), 0 6px 40px 0 rgba(0, 0, 0, 0.19);
+}
 .card-img-top {
-    max-height: 400px;
+    overflow: hidden;
+    display: initial;
+    width: 100%;
+    transform: rotate(10deg);
+    object-fit: cover;
+}
+.cardblock-container {
+    max-width: 33.3%;
+}
+.body-card {
+    text-align: center;
+}
+.shaper {
+    width: 600px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.shaper-gradient {
+    width: 620px;
+    height: 270px;
+    transform: rotate(-10deg) translateX(-90px) translateY(-75px);
+    object-fit: cover;
+    background: #8A2387;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #F27121, #E94057, #8A2387);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #F27121, #E94057, #8A2387); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+    border-radius: 50%;
+}
+.card-deck {
+    color:black;
+}
+.card-img-modal {
+    width: 100%;
+    margin: auto;
+}
+.modal-body {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+}
+.edit-btn {
+    width: 100%;
+    background-color: #686de0;
+    font-weight: 400;
+    font-size: 1.7rem;
+    color: white;
+    border-style: none;
+    height: 5rem;
+}
+.modal-content {
+    max-height: 100vh;
+}
+.modal-img-top {
+    margin: auto;
+    max-width: 100%;
+}
+.img-container {
+    position: relative;
+    width: 100%;
+    align-content: center;
+    justify-content: center;
+}
+.fa-camera {
+    position: absolute;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #555;
+    color: white;
+    font-size: 16px;
+    padding: 16px 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    opacity: 0.8;
+}
+.fa-edit {
+    float: right;
+    margin-right: 2%;
+    margin-top: 2%;
+    padding-top: 0%;
+    padding-left: 5%;
+    font-size: 1.0rem;
+    border-radius: 50%;
+    border-width: 8px;
+    border-style: solid;
+    border-color: gray;
+    background-color: gray;
+    color:white;
+    width: 40px;
+    height: 40px;
+}
+.field-row {
+    margin-top: 4%;
+}
+.entries {
+    flex-direction: column;
+}
+.cancelbtn {
+    float: right;
 }

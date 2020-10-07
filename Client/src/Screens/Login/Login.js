@@ -5,7 +5,6 @@ import history from '../../history';
 import { useDispatch, useSelector } from 'react-redux';
 import { signin} from '../../actions/authActions';
 import NavBar from '../../navbar';
-import Axios from "axios";
 
 function Login(props) {
   const [Email, setEmail] = useState('');
@@ -37,7 +36,7 @@ function Login(props) {
           Wrong Email and\or Password
         </div>}
           <div className="row login-content">
-            <div className="col-8">
+            <div className="col-6">
               <form className="was-validated" onSubmit={login}>
                 <div className="form-group">
                   <label htmlFor="exampleInputUsername1">Email</label>

@@ -1,15 +1,20 @@
 import 'whatwg-fetch';
-
+import Axios from 'axios';
 class HttpService {
-    //Similar to getCars = function() {}
-    getCars = () => {
+    getCars = (Email) => {
+        const jemail = { email: Email};
+        
+    }
+    
+    
+    /*getCars = (email) => {
         var promise = new Promise((resolve, reject) => {
-            fetch('http://localhost:3001/getcars').then(response => {
+            fetch('http://localhost:3001/getcars?id='+id).then(response => {
                 resolve(response.json());
             })
         });
         return promise;
-    }
+    }*/
 
     login = (userName, passWord) => {
         var promise = new Promise((resolve, reject) => {
