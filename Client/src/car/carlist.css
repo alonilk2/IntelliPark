@@ -4,3 +4,12 @@
     margin-top: 20vh;
     padding: 5px 30px;
 }
+
+.uploader-ul {
+    min-width: 100%;
+}
+
+
+.modal-body {
+    overflow: hidden;
+}

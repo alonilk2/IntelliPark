@@ -30,7 +30,7 @@ function Carblock(props) {
         this.forceUpdate();
     }
 	return (
-		<div className="cardblock-container">
+		<div className="col cardblock-container">
 			<div className="card cardblock">
                 <div className="shaper-gradient">
                     <div className="shaper">

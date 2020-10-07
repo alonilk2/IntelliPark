@@ -38,12 +38,10 @@ class CarList extends Component {
     render () {
         return (    
             <div className="row">
-              <div className="col">
-                <div className="card-deck" style={{margin: 0}}>
+
                   {this.carList()}
-                </div>
-              </div>
-              <div className="col">
+
+              <div className="col-3">
                 <Button variant="primary" className="addBtn" onClick={()=>{this.setState({show: true})}}>Add New Car</Button>
               </div>
               <Modal
@@ -57,7 +55,7 @@ class CarList extends Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <BodyHandler />
+                  <BodyHandler email={this.props.email}/>
                 </Modal.Body>
             </Modal>
             </div>
@@ -65,7 +63,7 @@ class CarList extends Component {
     } 
 }
 
-function BodyHandler() {
+function BodyHandler(props) {
   const getManufacturers = () => {
     let i;
     let arr = Object.keys(ManuList).map((key)=> {
@@ -85,21 +83,37 @@ function BodyHandler() {
   const [newMan, setNewMan] = useState(false);
   const [newModel, setNewModel] = useState(false);
   const [newYear, setNewYear] = useState(false);
-  const [newImage, setImage] = useState(false);
   const [newID, setNewID] = useState(false);
   const [newColor, setNewColor] = useState(false);
   const [newfile, setFile] = useState([]);
   const [strTXT, setText] = useState([]);
+  const [email, setEmail] = useState(props.email);
   const onDrop = acceptedFiles => {
     setFile(acceptedFiles[0]);
     setText(acceptedFiles[0].name);
+  }
+  const handleSaveEntries = (e) => {
+    e.preventDefault();
+    var fdata = new FormData()
+    fdata.append('img', newfile);
+    fdata.append('Manufacturer', newMan)
+    fdata.append('Model', newModel)
+    fdata.append('year', newYear)
+    fdata.append('color', newColor)
+    fdata.append('ID', newID)
+    fdata.append('email', email)
+
+    Axios.post("http://localhost:3001/addNewCar", fdata).then(res => {
+            console.log(res);
+        }).catch(err => console.error(err));
   }
   return (
     <Form>
       <Form.Row>
         <Form.Group as={Col} controlId="formManufacturer">
           <Form.Label>Manufacturer:</Form.Label>
-          <Form.Control                                 
+          <Form.Control   
+            required                              
             as="select"
             defaultValue="Choose..."
             custom onChange={(e)=>{e.target.value!=="Choose..." ? setNewMan(e.target.value) : setNewMan(false)}}
@@ -111,29 +125,26 @@ function BodyHandler() {
 
         <Form.Group as={Col} controlId="Model">
           <Form.Label>Model:</Form.Label>
-          <Form.Control placeholder="model" custom onChange={(e)=>{setNewModel(e.target.value)}}/>
+          <Form.Control required placeholder="model" custom onChange={(e)=>{setNewModel(e.target.value)}}/>
         </Form.Group>
       </Form.Row>
-
-      <Form.Group controlId="formGridAddress1">
-        <Form.Label>Number Plate:</Form.Label>
-        <Form.Control placeholder="numberplate" custom onChange={(e)=>{setNewID(e.target.value)}} />
-      </Form.Group>
-
-      <Form.Group controlId="formGridAddress2">
-        <Form.Label>Color:</Form.Label>
-        <Form.Control placeholder="color" custom onChange={(e)=>{setNewColor(e.target.value)}}/>
-      </Form.Group>
-      <Form.Group controlId="modelyear">
-          <Form.Label>Model Year:</Form.Label>
-          <Form.Control as="select" defaultValue="Choose..." onChange={(e)=>{setNewYear(e.target.value)}}>
-              <option>Choose...</option>
-              {getYears()}
-          </Form.Control>
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+      <Form.Row>
+        <Form.Group as={Col} controlId="formGridAddress1">
+          <Form.Label>Number Plate:</Form.Label>
+          <Form.Control required placeholder="numberplate" custom onChange={(e)=>{setNewID(e.target.value)}} />
+        </Form.Group>
+        <Form.Group as={Col} controlId="formGridAddress2">
+          <Form.Label>Color:</Form.Label>
+          <Form.Control required placeholder="color" custom onChange={(e)=>{setNewColor(e.target.value)}}/>
+        </Form.Group>
+        </Form.Row>
+        <Form.Group controlId="modelyear">
+            <Form.Label>Model Year:</Form.Label>
+            <Form.Control required as="select" defaultValue="Choose..." onChange={(e)=>{setNewYear(e.target.value)}}>
+                <option>Choose...</option>
+                {getYears()}
+            </Form.Control>
+        </Form.Group>
       <Form.Row>
         <Dropzone onDrop={onDrop}>
             {({ getRootProps, getInputProps }) => (
@@ -151,6 +162,9 @@ function BodyHandler() {
             </div>
         </ul>
       </Form.Row>
+      <Button variant="primary" type="submit" onClick={(e)=>{handleSaveEntries(e)}}>
+        Submit
+      </Button>
     </Form>
   )
 }

@@ -111,7 +111,26 @@ app.post('/addcar', function(request, response){
 		else response.send(savedcar);
 	})
 })
-
+app.post('/addNewCar', upload.single('img'), async function(req, res){
+	var carIns = new Car();
+	if(req.body.Manufacturer) carIns.Manufacturer = req.body.Manufacturer;
+	if(req.body.ID) carIns.ID = req.body.ID;
+	if(req.body.color) carIns.color = req.body.color;
+	if(req.body.Model) carIns.Model = req.body.Model;
+	if(req.body.year) carIns.year = req.body.year;
+	if(req.body.email) carIns.email = req.body.email;
+	var img = fs.readFileSync(req.file.path);
+	var encode_image = img.toString('base64');
+	var finalImg = {
+		 contentType: req.file.mimetype,
+		 image: new Buffer.from(encode_image, 'base64')
+	};
+	carIns.imgurl = finalImg;
+	carIns.save((err, doc)=>{
+		if(err) return res.status(500).send(err);
+		return res.send(doc.imgurl);
+	});
+})
 app.post('/updateCar', async function(request, response){
 	await Car.deleteOne({_id: request.body.carObj._id}, function(err) {
 		if(err) return console.log("No previous car entry found");
@@ -142,10 +161,9 @@ app.post('/updateImg', upload.single('img'), async function (req, res) {
 		 image: new Buffer.from(encode_image, 'base64')
 	};
 	carIns.imgurl = finalImg;
-	console.log(carIns);
 	carIns.save((err, doc)=>{
 		if(err) return res.status(500).send(err);
-		return res.send(doc);
+		return res.send(doc.imgurl);
 	});
 })
 app.post('/upload-file', upload.single('avatar'), async function (req, res) {
