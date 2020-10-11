@@ -15,7 +15,10 @@
     margin-top: 7%;
     padding: 4%;
 }
-
+.background-img {
+    background-image: url("https://www.chargify.com/images/dots-diagonal-180b7707.png");
+    opacity: 1;
+}
 .contact {
     background: #0f0c29;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
@@ -48,6 +51,7 @@
 }
 .contact-title-col {
     margin-top: 10%;
+    color: white;
 }
 .card-img-top {
     height: 17vw;
@@ -60,4 +64,8 @@
     background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     padding: 10%;
 
+}
+
+.contact-title {
+    color: white;
 }

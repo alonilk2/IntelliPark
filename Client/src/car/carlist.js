@@ -34,14 +34,16 @@ class CarList extends Component {
           return (list);
       }
   }
+  
+  setShow = (bool) => {
+    this.setState({show: bool});
+  }
 
     render () {
         return (    
             <div className="row">
-
-                  {this.carList()}
-
-              <div className="col-3">
+              {this.carList()}
+              <div className="col-4 addcarbtn">
                 <Button variant="primary" className="addBtn" onClick={()=>{this.setState({show: true})}}>Add New Car</Button>
               </div>
               <Modal
@@ -55,7 +57,7 @@ class CarList extends Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <BodyHandler email={this.props.email}/>
+                  <BodyHandler email={this.props.email} setShow={this.setShow}/>
                 </Modal.Body>
             </Modal>
             </div>
@@ -88,12 +90,19 @@ function BodyHandler(props) {
   const [newfile, setFile] = useState([]);
   const [strTXT, setText] = useState([]);
   const [email, setEmail] = useState(props.email);
+  const [displayState, setDisplayState] = useState(0);
+  const [vaildated, setVaildated] = useState(false);
   const onDrop = acceptedFiles => {
     setFile(acceptedFiles[0]);
     setText(acceptedFiles[0].name);
   }
-  const handleSaveEntries = (e) => {
-    e.preventDefault();
+  const handleSaveEntries = async (e) => {
+    const form = e.currentTarget;
+    if(form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setVaildated(true);
     var fdata = new FormData()
     fdata.append('img', newfile);
     fdata.append('Manufacturer', newMan)
@@ -102,70 +111,90 @@ function BodyHandler(props) {
     fdata.append('color', newColor)
     fdata.append('ID', newID)
     fdata.append('email', email)
-
-    Axios.post("http://localhost:3001/addNewCar", fdata).then(res => {
-            console.log(res);
-        }).catch(err => console.error(err));
+    await Axios.post("http://localhost:3001/addNewCar", fdata)
+        .then(res => {
+            setDisplayState(1);
+        })
+        .catch(err => console.error(err));
   }
-  return (
-    <Form>
-      <Form.Row>
-        <Form.Group as={Col} controlId="formManufacturer">
-          <Form.Label>Manufacturer:</Form.Label>
-          <Form.Control   
-            required                              
-            as="select"
-            defaultValue="Choose..."
-            custom onChange={(e)=>{e.target.value!=="Choose..." ? setNewMan(e.target.value) : setNewMan(false)}}
-          >
-              <option>Choose...</option>
-              {getManufacturers()}
-          </Form.Control>
-        </Form.Group>
-
-        <Form.Group as={Col} controlId="Model">
-          <Form.Label>Model:</Form.Label>
-          <Form.Control required placeholder="model" custom onChange={(e)=>{setNewModel(e.target.value)}}/>
-        </Form.Group>
-      </Form.Row>
-      <Form.Row>
-        <Form.Group as={Col} controlId="formGridAddress1">
-          <Form.Label>Number Plate:</Form.Label>
-          <Form.Control required placeholder="numberplate" custom onChange={(e)=>{setNewID(e.target.value)}} />
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridAddress2">
-          <Form.Label>Color:</Form.Label>
-          <Form.Control required placeholder="color" custom onChange={(e)=>{setNewColor(e.target.value)}}/>
-        </Form.Group>
-        </Form.Row>
-        <Form.Group controlId="modelyear">
-            <Form.Label>Model Year:</Form.Label>
-            <Form.Control required as="select" defaultValue="Choose..." onChange={(e)=>{setNewYear(e.target.value)}}>
-                <option>Choose...</option>
-                {getYears()}
-            </Form.Control>
-        </Form.Group>
-      <Form.Row>
-        <Dropzone onDrop={onDrop}>
-            {({ getRootProps, getInputProps }) => (
-            <div {...getRootProps({ className: "dropzone" })}>
-                <input {...getInputProps()} />
-                <img src="https://cdn.iconscout.com/icon/free/png-256/cloud-data-uploading-upload-ftp-file-backup-8-26058.png" class="upimg" alt="background-dropzone"></img>
-            </div>
-            )}
-        </Dropzone>
-        <ul className="uploader-ul">
-            <div className="row">
-                <div className="col-8 leftcol">
-                    <strong>File: </strong><li key={strTXT}>{strTXT}</li>
+  switch(displayState) {
+    case 0: {
+      return (
+        <Form validated={vaildated} onSubmit={handleSaveEntries}>
+          <Form.Row>
+            <Form.Group as={Col} controlId="formManufacturer">
+              <Form.Label>Manufacturer:</Form.Label>
+              <Form.Control   
+                required                              
+                as="select"
+                defaultValue="Choose..."
+                custom onChange={(e)=>{e.target.value!=="Choose..." ? setNewMan(e.target.value) : setNewMan(false)}}
+              >
+                  <option>Choose...</option>
+                  {getManufacturers()}
+              </Form.Control>
+            </Form.Group>
+      
+            <Form.Group as={Col} controlId="Model">
+              <Form.Label>Model:</Form.Label>
+              <Form.Control placeholder="model" custom onChange={(e)=>{setNewModel(e.target.value)}} required/>
+            </Form.Group>
+          </Form.Row>
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridAddress1">
+              <Form.Label>Number Plate:</Form.Label>
+              <Form.Control placeholder="numberplate" custom onChange={(e)=>{setNewID(e.target.value)}} required/>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridAddress2">
+              <Form.Label>Color:</Form.Label>
+              <Form.Control placeholder="color" custom onChange={(e)=>{setNewColor(e.target.value)}} required/>
+            </Form.Group>
+            </Form.Row>
+            <Form.Group controlId="modelyear">
+                <Form.Label>Model Year:</Form.Label>
+                <Form.Control as="select" defaultValue="Choose..." onChange={(e)=>{setNewYear(e.target.value)}} required>
+                    <option>Choose...</option>
+                    {getYears()}
+                </Form.Control>
+            </Form.Group>
+          <Form.Row>
+            <Dropzone onDrop={onDrop}>
+                {({ getRootProps, getInputProps }) => (
+                <div {...getRootProps({ className: "dropzone" })}>
+                    <input {...getInputProps()} />
+                    <img src="https://cdn.iconscout.com/icon/free/png-256/cloud-data-uploading-upload-ftp-file-backup-8-26058.png" class="upimg" alt="background-dropzone"></img>
                 </div>
-            </div>
-        </ul>
-      </Form.Row>
-      <Button variant="primary" type="submit" onClick={(e)=>{handleSaveEntries(e)}}>
-        Submit
-      </Button>
-    </Form>
-  )
+                )}
+            </Dropzone>
+            <ul className="uploader-ul">
+                <div className="row">
+                    <div className="col-8 leftcol">
+                        <strong>File: </strong><li key={strTXT}>{strTXT}</li>
+                    </div>
+                </div>
+            </ul>
+          </Form.Row>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      )
+    }
+    case 1: {
+      return (
+        <div>
+          <div className="success-body">
+              <p>Car was added successfully.</p>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Checkmark_green.svg/1180px-Checkmark_green.svg.png" alt="" className="confirm-sign"></img>
+          </div>
+          <div className="okay-btn">
+              <Button className="cancelbtn" variant="secondary" onClick={()=>{props.setShow(false)}}>OK</Button>
+          </div>
+      </div>       
+      )
+      
+    }
+  }  
+  
 }
 export default CarList;

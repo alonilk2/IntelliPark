@@ -3,7 +3,7 @@ import './App.css';
 import NavBar from './navbar';
 import CarList from './car/carlist';
 import Body from './body';
-
+import Footer from './footer';
 
 class App extends Component {
 
@@ -12,7 +12,7 @@ class App extends Component {
       <div className="App">
         <NavBar />
         <Body />
-
+        <Footer />
       </div>
     );
   }

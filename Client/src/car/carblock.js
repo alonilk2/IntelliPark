@@ -5,7 +5,10 @@ import {useDispatch } from 'react-redux';
 import { editCar } from '../actions/carActions'
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
 import { ManuList } from '../Constants/carConst';
 import { Base64 } from 'js-base64';
 import Dropzone from "react-dropzone";
@@ -16,6 +19,7 @@ function Carblock(props) {
 	const handleEditClick = () => {
 		dispatch(editCar(props.car));
     }
+    const [blockShow, setBlockShow] = useState(true);
     const [show, setShow] = useState(false);
     const [imgString, setImage] = useState('');
     useEffect(() => {
@@ -29,7 +33,7 @@ function Carblock(props) {
         setImage(imgStr);
         this.forceUpdate();
     }
-	return (
+	if(blockShow) return (
 		<div className="col cardblock-container">
 			<div className="card cardblock">
                 <div className="shaper-gradient">
@@ -55,11 +59,12 @@ function Carblock(props) {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <BodyHandler car={props.car} imgStr={imgString} setRootImg={updateImg} onEntriesChange={setShow}></BodyHandler>
+                    <BodyHandler car={props.car} imgStr={imgString} setRootImg={updateImg} onEntriesChange={setShow} carBlockShow={setBlockShow}></BodyHandler>
                 </Modal.Body>
             </Modal>
 		</div>
     )
+    return null;
 }
 
 function BodyHandler(props) {
@@ -72,7 +77,8 @@ function BodyHandler(props) {
     const [newColor, setNewColor] = useState(false);
     const [newfile, setFile] = useState([]);
     const [strTXT, setText] = useState([]);
-
+    const [showErr, setShowErr]= useState(false); 
+    const [errorMsg, setErrorMsg] = useState('');
     const getManufacturers = () => {
         let i;
         let arr = Object.keys(ManuList).map((key)=> {
@@ -92,7 +98,10 @@ function BodyHandler(props) {
         }
         Axios.post("http://localhost:3001/updateCar", data).then(res => {
                 console.log(res);
-            }).catch(err => console.error(err));
+            }).catch(err => {
+                setShowErr(true);
+                setErrorMsg(err);
+            });
     }
 
     const onDrop = acceptedFiles => {
@@ -134,7 +143,23 @@ function BodyHandler(props) {
                 let u8s = new Uint8Array(res.data.imgurl.image.data);
                 setImage("data:"+res.data.imgurl.contentType+";base64,"+Base64.fromUint8Array(u8s));
                 props.setRootImg("data:"+res.data.imgurl.contentType+";base64,"+Base64.fromUint8Array(u8s));
-                }).catch(err => console.error(err));
+                }).catch(err => {
+                    setShowErr(true);
+                    setErrorMsg(err);
+                });
+        }
+    }
+    const handleDeleteCarRequest = async (e, car) => {
+        e.preventDefault();
+        console.log("id:" + car.ID)
+        const url = `http://localhost:3001/car/delete/${car.ID}`;
+        try {
+            const res = await Axios.delete(url);
+            if(res.data===true)
+                setEditState(8);
+        }
+        catch (err) {
+            console.log(err);
         }
     }
     switch(editState) {
@@ -282,36 +307,84 @@ function BodyHandler(props) {
                 </div>
             );
         }
+        case 7: {
+            if (showErr) {
+                return (
+                  <Alert variant="danger" onClose={() => setShowErr(false)} dismissible>
+                    <Alert.Heading>Error!</Alert.Heading>
+                    <p>{errorMsg}</p>
+                  </Alert>
+                );
+            }
+        }
+        case 8: {
+            return (
+                <div>
+                    <div className="success-body">
+                        <p>Car was deleted successfully.</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Checkmark_green.svg/1180px-Checkmark_green.svg.png" alt="" className="confirm-sign"></img>
+                    </div>
+                    <div className="okay-btn">
+                        <Button className="cancelbtn" variant="secondary" onClick={()=>{props.carBlockShow(false); props.onEntriesChange(false);}}>OK</Button>
+                    </div>
+                </div>             
+            )
+        }
         default: {
-            let a = JSON.stringify(newMan, null, 2);
-            console.log("Man:"+ {a}+"  Model:"+{newModel});
             return (
                 <div>
                     <ImgSection />
-                    <div className="row field-row">                    
-                        <div className="col-9"><h5 for="man">Manufacturer:</h5><p>{newMan===false ? props.car.Manufacturer : newMan}</p></div>
-                        <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(1)}></button></div>
-                    </div>
-                    <div className="row field-row">                    
-                        <div className="col-9"><h5 for="man">Model:</h5><p>{newModel===false ? props.car.Model : newModel}</p></div>
-                        <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(2)}></button></div>
-                    </div>
-                    <div className="row field-row">                    
-                        <div className="col-9"><h5 for="ID">ID:</h5><p>{newID===false ? props.car.ID : newID}</p></div>
-                        <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(3)}></button></div>
-                    </div>
-                    <div className="row field-row">                    
-                        <div className="col-9"><h5 for="COLOR">Color:</h5><p>{newColor===false ? props.car.color : newColor}</p></div>
-                        <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(4)}></button></div>
-                    </div>
-                    <div className="row field-row">                    
-                        <div className="col-9"><h5 for="COLOR">Model Year:</h5><p>{newYear===false ? props.car.year : newYear}</p></div>
-                        <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(5)}></button></div>
-                    </div>
-                    <div className="row">
-                        <div className="col-6 savebtn"><Button variant="primary" type="submit" onClick={(e)=>{handleSaveEntries(e)}}>Save</Button></div>
-                        <div className="col-6"><Button className="cancelbtn" variant="secondary" onClick={()=>{onModalClose()}} type="submit">Cancel</Button></div>
-                    </div>
+                    <Accordion>
+                        <Card>
+                            <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                Edit Profile
+                            </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="0">
+                            <Card.Body>
+                                <div className="row field-row">                    
+                                    <div className="col-9"><h5 for="man">Manufacturer:</h5><p>{newMan===false ? props.car.Manufacturer : newMan}</p></div>
+                                    <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(1)}></button></div>
+                                </div>
+                                <div className="row field-row">                    
+                                    <div className="col-9"><h5 for="man">Model:</h5><p>{newModel===false ? props.car.Model : newModel}</p></div>
+                                    <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(2)}></button></div>
+                                </div>
+                                <div className="row field-row">                    
+                                    <div className="col-9"><h5 for="ID">ID:</h5><p>{newID===false ? props.car.ID : newID}</p></div>
+                                    <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(3)}></button></div>
+                                </div>
+                                <div className="row field-row">                    
+                                    <div className="col-9"><h5 for="COLOR">Color:</h5><p>{newColor===false ? props.car.color : newColor}</p></div>
+                                    <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(4)}></button></div>
+                                </div>
+                                <div className="row field-row">                    
+                                    <div className="col-9"><h5 for="COLOR">Model Year:</h5><p>{newYear===false ? props.car.year : newYear}</p></div>
+                                    <div className="col-3"><button class="fas fa-edit" onClick={()=>setEditState(5)}></button></div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-6 savebtn"><Button variant="primary" type="submit" onClick={(e)=>{handleSaveEntries(e)}}>Save</Button></div>
+                                    <div className="col-6"><Button className="cancelbtn" variant="secondary" onClick={()=>{onModalClose()}} type="submit">Cancel</Button></div>
+                                </div>
+                            </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                        <Card>
+                            <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                Delete Car
+                            </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="1">
+                            <Card.Body>
+                                <p>Are you sure you want to delete this car ?</p>
+                                <p className="warn-txt">This Can't Be Undone!</p>
+                                <button className="del-btn" onClick={(e)=>{handleDeleteCarRequest(e, props.car)}}>Delete Car</button>
+                            </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                        </Accordion>
                 </div>
             );
         }

@@ -1,0 +1,36 @@
+.footer {
+    background: #000000;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #1a1a1a, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #1a1a1a, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 10%;
+    text-align: center;
+}
+
+.footer-rights p{
+    color: #ababab;
+    padding-top: 0%;
+}
+
+.form-label {
+    color: #ababab;
+}
+
+.inputEmailField {
+    border-width: 1px;
+
+}
+
+.left {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.footer-sign-up-btn {
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 0%;
+}
+.footer-menu-title {
+    padding-left: 40px;
+}

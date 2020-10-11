@@ -1,15 +1,14 @@
 .addBtn {
     border-radius: 1.25rem;
     background-color: #0278c2;
-    margin-top: 20vh;
     padding: 5px 30px;
+    margin: auto;
 }
 
 .uploader-ul {
     min-width: 100%;
 }
 
-
-.modal-body {
-    overflow: hidden;
+.addcarbtn {
+    border-width: 0px 0px 0px 0px !important;
 }

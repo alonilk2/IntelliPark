@@ -58,6 +58,9 @@ h5, p {
     border-style: none;
     height: 5rem;
 }
+.edit-btn:hover {
+    background-color: #2b31d4;
+}
 .modal-content {
     max-height: 100vh;
 }
@@ -73,8 +76,8 @@ h5, p {
 }
 .fa-camera {
     position: absolute;
-    top: 95%;
-    left: 50%;
+    top: 90%;
+    left: 90%;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     background-color: #555;
@@ -86,7 +89,9 @@ h5, p {
     border-radius: 50%;
     height: 50px;
     width: 50px;
-    opacity: 0.8;
+}
+.fa-camera:hover {
+    background-color: #737373;
 }
 .fa-edit {
     float: right;
@@ -112,4 +117,26 @@ h5, p {
 }
 .cancelbtn {
     float: right;
+}
+.warn-txt {
+    color: crimson;
+}
+.del-btn {
+    border-radius: 1.25rem;
+    padding: 1% 7%;    
+    background-color: crimson;
+    color: white;
+    border-width: 1px;
+}
+.confirm-sign {
+    width: 100px;
+    height: 100px;
+    margin: 15%;
+}
+
+.success-body {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }
