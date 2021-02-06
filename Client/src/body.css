@@ -9,6 +9,15 @@
     max-width: 100%;
     overflow: hidden;
 }
+.leftcol {
+    background-color: rgba(128,128,128,0.5);
+    height: 80%;
+}
+.bodyhead {
+    background-image: url("tunn.jpg");
+    background-size: cover;
+    min-height: 120vh;
+}
 
 .midtitle {
     font-size: 30px;
@@ -18,6 +27,7 @@
 .background-img {
     background-image: url("https://www.chargify.com/images/dots-diagonal-180b7707.png");
     opacity: 1;
+
 }
 .contact {
     background: #0f0c29;  /* fallback for old browsers */

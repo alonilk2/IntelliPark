@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './body.css';
+import tunn from './tunn.jpg';
 function Body(props) {
     const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
@@ -11,6 +12,14 @@ function Body(props) {
     }
     return(
         <div>
+            <div className="row bodyhead">
+                <div className="col leftcol">
+                    ABCDEFH
+                </div>
+                <div className="col rightcol">
+
+                </div>
+            </div>
             <div className="row about">
                 <div className="col-6 midtitle">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut auctor bibendum ligula vel varius. Sed consectetur tellus at massa aliquet ornare. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum vel gravida massa, id convallis nunc. Proin vitae lacinia eros. Quisque quis risus vitae ex efficitur auctor eget nec tellus. Phasellus sit amet mi quis odio egestas consectetur.
